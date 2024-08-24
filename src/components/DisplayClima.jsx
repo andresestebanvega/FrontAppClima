@@ -1,44 +1,42 @@
 import React from "react";
+import { traducirDescripcion } from "./Traduccion";
 
 export const DisplayClima = ({ clima }) => {
-
     try {
         //verificar si esta vacio el clima
         if (!clima) {
-            return <div> no hay información del clima </div>
+            return <div>No hay información del clima</div>;
         }
 
         const climaData = JSON.parse(clima);
 
         //convirtiendo temperatura a grados celsius
-        const temperaturaACelsius = climaData.main.temp - 273.15;
+        const temperatuACelsius = climaData.main.temp - 273.15;
 
         return (
             <>
-                <div>
+                <div className="clima">
                     <table className="table table-striped table-bordered">
                         <thead className="thead-dark">
                             <tr>
                                 <th>Ciudad</th>
-                                <th>Temperatura</th>
+                                <th>Temperatura (°C)</th>
                                 <th>Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{climaData.name}</td>
-                                <td>{temperaturaACelsius.toFixed(2)}°C</td>// lo muestra con dos decimales
+                                <td>{temperatuACelsius.toFixed(2)}</td>
                                 <td>{traducirDescripcion(climaData.weather[0].description)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </>
-
         );
-    
     } catch (error) {
-    console.log("Error al mostrar el clima", error);
-    return <div> Error al mostrar el clima </div>
+        console.log("Error en la carga de datos: ", error);
+        return <div>Error al cargar los datos del clima</div>;
     }
 };
